@@ -11,11 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class AppWeatherApplicationTests {
 
 	@Autowired
-	private final WeatherService weatherService;
-
-	AppWeatherApplicationTests(WeatherService weatherService) {
-		this.weatherService = weatherService;
-	}
+	private  WeatherService weatherService;
 
 	@Test
 	public void getCurrentWeather(){

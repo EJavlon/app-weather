@@ -1,9 +1,12 @@
 package com.company.appweather.service;
 
+import com.company.appweather.config.WeatherConfig;
 import com.company.appweather.exeption.CoordinateExeption;
 import com.company.appweather.model.CurrentWeather;
 import com.company.appweather.model.DailyWeatherHistory;
 import com.company.appweather.payload.ApiResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,6 +17,13 @@ import java.util.Objects;
 @Service
 public class WeatherService {
 
+    @Autowired
+    private  WeatherConfig config;
+
+    public WeatherService(WeatherConfig config) {
+        this.config = config;
+    }
+
     public ApiResponse getCurrentWeather(double lat, double lon) {
         try {
             checkCoordinate(lat, lon);
@@ -22,7 +32,7 @@ public class WeatherService {
         }
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = String.format(System.getenv("URL_1"), lat, lon, System.getenv("API_KEY"));
+        String url = String.format(config.getUrl1(), lat, lon,config.getApiKey());
 
         CurrentWeather currentWeather;
         try {
@@ -47,7 +57,7 @@ public class WeatherService {
 
         RestTemplate restTemplate = new RestTemplate();
         String url = String.format(
-                System.getenv("URL_2"), lat, lon, startDate, endDate, System.getenv("API_KEY"));
+                config.getUrl2(), lat, lon, startDate, endDate, config.getApiKey());
 
         DailyWeatherHistory dailyWeatherHistory;
         try {
@@ -73,7 +83,7 @@ public class WeatherService {
 
         RestTemplate restTemplate = new RestTemplate();
         String url = String.format(
-                System.getenv("URL_2"), lat, lon, date, endDate, System.getenv("API_KEY"));
+                config.getUrl2(), lat, lon, date, endDate, config.getApiKey());
 
         DailyWeatherHistory dailyWeatherHistory;
         try {
